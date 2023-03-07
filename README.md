@@ -9,8 +9,9 @@ SSH into the instance and run these commands to update the software repository a
 
 sudo apt-get update
 sudo apt install -y python3-pip nginx
-
 sudo nano /etc/nginx/sites-enabled/fastapi_nginx
+
+
 And put this config into the file (replace the IP address with your EC2 instance's public IP):
 
 server {
@@ -22,6 +23,8 @@ server {
 }
 
 sudo service nginx restart
+
+
 Update EC2 security-group settings for your instance to allow HTTP traffic to port 80.
 
 Launch API endpoints
@@ -36,41 +39,40 @@ cd face-attendance-web-app-react-python
 Install Python 3.8, create a virtual environment and install requirements.
 
 sudo apt update
-
 sudo apt install software-properties-common
-
 sudo add-apt-repository ppa:deadsnakes/ppa
-
 sudo apt install python3.8
-
 sudo apt install python3.8-dev
-
 sudo apt install python3.8-distutils
-
 sudo apt install python3-virtualenv
-
 cd backend
-
 virtualenv venv --python=python3.8
-
 source venv/bin/activate
-
 pip install cmake==3.25.0
-
 pip install -r requirements.txt
+
 Launch app.
 
 python3 -m uvicorn main:app
 
-
+######################frontend
+You can host the frontend locally (localhost) or on a server. These are instructions in case you decide to do it on a server.
 setup server
 The process is similar as in the previous case.
 
 Launch a t2.large instance from AWS.
-
 SSH into the instance and run the same commands as in the backend section to install nginx
-
 The app will be launched in the port 3000, so you need to make a small adjustment in the config file.
+
+
+sudo apt-get update
+sudo apt install -y python3-pip nginx
+sudo nano /etc/nginx/sites-enabled/fastapi_nginx
+
+
+
+
+
 
 server {
     listen 80;   
@@ -82,23 +84,29 @@ server {
 
 
 sudo service nginx restart
+
+
+
+
 Update EC2 security-group settings for your instance to allow HTTP traffic to port 80.
 
 Launch App
+
 git clone https://github.com/computervisiondeveloper/face-attendance-web-app-react-python.git
-
 cd face-attendance-web-app-react-python
-
 cd frontend/face-attendance-web-app-front/
-
 sudo apt-get install npm
-
 npm install
 
+
+
+
 npm start
+
+
 Edit the value of API_BASE_URL in src/API.js with the ip of the backend server.
+nano src/API.js
+
 
 You may need to adjust your browser to allow access to your webcam through an unsecure conection from the EC2 ip address. In chrome this setting is adjusted here chrome://flags/#unsafely-treat-insecure-origin-as-secure.
-
-
 
